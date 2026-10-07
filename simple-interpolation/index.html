@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interpolation</title>
+
+    <script src="style.css"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.webgpu.min.js" ></script>
+    <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+</head>
+
+<body>
+    <h1>
+        Face Interpolation with styleGAN latent space with ONNX Runtime
+    </h1>
+    <div id="options">
+        <p> Model Loading Status: <span id="model-status">Fetching Models (will take about 90 seconds)..</span></p>
+        <p> ONNX Runtime Provider: <span id="onnx-provider">Detecting...</span></p>
+    </div>
+    <div id="input-buttons">
+    <input type = "file" id="img-upload-1" width="100" height="100">
+    <input type = "file" id="img-upload-2" width="100" height="100">
+    </div>
+
+    <div id="canvas-container">
+    <canvas id="cnv-1" width="400" height="400"></canvas>
+    <canvas id="cnv-2" width="400" height="400"></canvas> 
+    </div>
+
+    <div>
+    <button type="button" id="mix"> Mix! </button>
+    </div>
+    <script src="script.js" type="module"></script>
+
+    <div>
+    <canvas id= "output-cnv" width="400" height="400"></canvas>
+    </div>
+
+</body>
+</html>

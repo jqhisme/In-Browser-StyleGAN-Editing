@@ -1,0 +1,10 @@
+# ignore all the .ipynb files
+*.ipynb
+*.jpeg
+.env
+*.env
+__pycache__/
+
+# Keep the directory in Git, but ignore generated export files.
+onnx-export/*
+encoder4editing/
