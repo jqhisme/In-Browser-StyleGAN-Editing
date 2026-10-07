@@ -134,23 +134,23 @@ async function loadModel(){
         const base = "https://huggingface.co/jqhisme/e4e-ffhq-onnx/resolve/main/";
 
         const encoder = await ort.InferenceSession.create(
-            base + "e4e_encoder.onnx",
+            base + "e4e_encoder_int8.onnx",
             {
                 executionProviders: ["webgpu","wasm"],
                 externalData: [{
-                    path: "e4e_encoder.onnx.data",
-                    data: base + "e4e_encoder.onnx.data"
+                    path: "e4e_encoder_int8.onnx.data",
+                    data: base + "e4e_encoder_int8.onnx.data"
                 }]
             }
         );
 
         const decoder = await ort.InferenceSession.create(
-            base + "e4e_decoder.onnx",
+            base + "e4e_decoder_int8.onnx",
             {
                 executionProviders: ["webgpu","wasm"],
                 externalData: [{
-                    path: "e4e_decoder.onnx.data",
-                    data: base + "e4e_decoder.onnx.data"
+                    path: "e4e_decoder_int8.onnx.data",
+                    data: base + "e4e_decoder_int8.onnx.data"
                 }]
             }
         );

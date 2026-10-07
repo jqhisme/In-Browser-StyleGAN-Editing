@@ -8,3 +8,4 @@ __pycache__/
 # Keep the directory in Git, but ignore generated export files.
 onnx-export/*
 encoder4editing/
+calibration_faces/
