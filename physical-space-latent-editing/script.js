@@ -120,9 +120,9 @@ async function loadModels() {
 
     const providers = navigator.gpu ? ["webgpu", "wasm"] : ["wasm"];
     setStatus("model", "Loading encoder…");
-    encoder = await ort.InferenceSession.create(MODEL_BASE + "e4e_encoder.onnx", {
+    encoder = await ort.InferenceSession.create(MODEL_BASE + "e4e_encoder_int8.onnx", {
       executionProviders: providers,
-      externalData: [{ path: "e4e_encoder.onnx.data", data: MODEL_BASE + "e4e_encoder.onnx.data" }]
+      externalData: [{ path: "e4e_encoder_int8.onnx.data", data: MODEL_BASE + "e4e_encoder_int8.onnx.data" }]
     });
     setStatus("model", "Loading decoder…");
     decoder = await ort.InferenceSession.create(MODEL_BASE + "e4e_decoder.onnx", {
