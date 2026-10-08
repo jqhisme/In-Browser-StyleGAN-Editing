@@ -1,5 +1,7 @@
 // global variables
 let faceMeshPromise;
+let faceMeshDetectionQueue = Promise.resolve();
+const uploadVersions = new Map();
 
 
 async function init(){
@@ -37,6 +39,8 @@ async function onImageUpload(event,canvasID){
     const file = event.target.files[0];
     if (!file) return;
 
+    const version = (uploadVersions.get(canvasID) ?? 0) + 1;
+    uploadVersions.set(canvasID, version);
     const canvas = document.getElementById(canvasID);
     canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
     const url = URL.createObjectURL(file);
@@ -45,20 +49,32 @@ async function onImageUpload(event,canvasID){
         image.src = url;
         await image.decode();
 
-        const mesh = await (faceMeshPromise ??= loadFaceMeshModel().catch(error => {
-            faceMeshPromise = undefined;
-            throw error;
-        }));
-        const faces = await mesh.detect(image);
+        const faces = await detectUploadedFace(image);
+        if (version !== uploadVersions.get(canvasID)) return;
         if (!faces.length) throw new Error("No face detected in the uploaded image.");
 
         alignFaceToCanvas(image, faces[0].keypoints, canvas);
     } catch (error) {
         console.error("Could not align uploaded face:", error);
-        alert(error.message);
+        if (version === uploadVersions.get(canvasID)) alert(error.message);
     } finally {
         URL.revokeObjectURL(url);
+        event.target.value = "";
     }
+}
+
+async function detectUploadedFace(image) {
+    const mesh = await (faceMeshPromise ??= loadFaceMeshModel().catch(error => {
+        faceMeshPromise = undefined;
+        throw error;
+    }));
+    const detection = faceMeshDetectionQueue.then(async () => {
+        // FaceMesh tracks the previous face region. A new upload needs a fresh search.
+        mesh.model.reset();
+        return mesh.detect(image);
+    });
+    faceMeshDetectionQueue = detection.catch(() => {});
+    return detection;
 }
 
 function alignFaceToCanvas(image, keypoints, canvas) {

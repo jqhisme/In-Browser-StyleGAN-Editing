@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interpolation</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.webgpu.min.js" ></script>
+    <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+</head>
+
+<body>
+    <h1>
+        Realtime Editing with Camera Input
+    </h1>
+    <div id="options">
+        <p> Model Loading Status: <span id="model-status">Fetching Models (will take about 30 seconds)..</span></p>
+        <p> ONNX Runtime Provider: <span id="onnx-provider">Detecting...</span></p>
+        <p> Mix Status: <span id="mix-status">Starting camera...</span></p>
+    </div>
+    <div id="input-buttons">
+            <label>Face 1 <input type="file" id="img-upload1" accept="image/*"></label>
+            <label>Face 2 <input type="file" id="img-upload2" accept="image/*"></label>
+    </div>
+
+    <div id="uploaded-images">
+        <canvas id="cnv-uploaded1" width="256" height="256"></canvas>
+        <canvas id="cnv-uploaded2" width="256" height="256"></canvas>
+    </div>
+
+    <div class ="flex-container">
+        <div class = "column">
+            <div id="canvas-container">
+                <canvas id="cnv-camera" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <div class = "column">
+            <div id="canvas-container">
+                <canvas id="cnv-draw" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+
+</body>
+</html>

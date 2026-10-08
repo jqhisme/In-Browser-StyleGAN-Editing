@@ -1,0 +1,18 @@
+#input-buttons,
+#uploaded-images,
+.flex-container {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+#uploaded-images canvas {
+    width: 100px;
+    height: 100px;
+}
+
+.flex-container canvas {
+    width: min(400px, 100%);
+    height: auto;
+}
