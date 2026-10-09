@@ -161,12 +161,12 @@ async function loadModel(){
         );
 
         const decoder = await ort.InferenceSession.create(
-            base + "e4e_decoder.onnx",
+            base + "e4e_decoder_int8.onnx",
             {
                 executionProviders: ["webgpu","wasm"],
                 externalData: [{
-                    path: "e4e_decoder.onnx.data",
-                    data: base + "e4e_decoder.onnx.data"
+                    path: "e4e_decoder_int8.onnx.data",
+                    data: base + "e4e_decoder_int8.onnx.data"
                 }]
             }
         );
