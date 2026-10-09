@@ -152,7 +152,7 @@ async function loadModel(){
         const encoder = await ort.InferenceSession.create(
             base + "e4e_encoder_int8.onnx",
             {
-                executionProviders: ["webgl","wasm"],
+                executionProviders: ["webgpu","wasm"],
                 externalData: [{
                     path: "e4e_encoder_int8.onnx.data",
                     data: base + "e4e_encoder_int8.onnx.data"
@@ -161,12 +161,12 @@ async function loadModel(){
         );
 
         const decoder = await ort.InferenceSession.create(
-            base + "e4e_decoder_int8.onnx",
+            base + "e4e_decoder.onnx",
             {
-                executionProviders: ["webgl","wasm"],
+                executionProviders: ["webgpu","wasm"],
                 externalData: [{
-                    path: "e4e_decoder_int8.onnx.data",
-                    data: base + "e4e_decoder_int8.onnx.data"
+                    path: "e4e_decoder.onnx.data",
+                    data: base + "e4e_decoder.onnx.data"
                 }]
             }
         );
