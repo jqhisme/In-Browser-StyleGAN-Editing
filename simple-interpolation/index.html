@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interpolation</title>
 
-    <script src="style.css"></script>
+    <link rel="stylesheet" href="style.css">
     
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.webgpu.min.js" ></script>
     <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
@@ -16,7 +16,7 @@
         Face Interpolation with styleGAN latent space with ONNX Runtime
     </h1>
     <div id="options">
-        <p> Model Loading Status: <span id="model-status">Fetching Models (will take about 30 seconds)..</span></p>
+        <p> Model Loading Status: <span id="model-status">Loading models...</span></p>
         <p> ONNX Runtime Provider: <span id="onnx-provider">Detecting...</span></p>
     </div>
     <div id="input-buttons">

@@ -1,0 +1,62 @@
+#input-buttons,
+#uploaded-images,
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    align-items: center;
+}
+
+#uploaded-images canvas {
+    width: 100px;
+    height: 100px;
+}
+
+.flex-container canvas {
+    width: min(1200px, 100%); 
+    height: auto;
+}
+
+#upload-contents {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+.model-download {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 12px;
+    max-width: 520px;
+    margin: 14px 0;
+}
+
+.model-download label {
+    font-weight: 600;
+}
+
+.model-download span {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.model-download progress {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 18px;
+    accent-color: #2563eb;
+}
+
+.model-download [role="status"] {
+    grid-column: 1 / -1;
+    font-size: 0.9em;
+}

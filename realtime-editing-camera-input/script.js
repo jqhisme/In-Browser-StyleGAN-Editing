@@ -151,7 +151,7 @@ function encodeUploadedFace(index) {
         if (version !== uploadVersions[index]) return;
         latents[index] = outputs[encoder.outputNames[0]];
         lastRenderedAlpha = null;
-        setMixStatus(latents.every(Boolean) ? "Move your nose left and right to mix." : "Upload the other face image.");
+        setMixStatus(latents.every(Boolean) ? "Move your nose to mix." : "Upload the other face image.");
     });
     encoderQueue = task.catch(() => {});
     return task;
@@ -243,31 +243,25 @@ async function loadLatentDirections(){
     return latentDirections;
 }
 async function loadModel(){
+    const hfUrl = "https://huggingface.co";
     try{
 
-        const base = "https://huggingface.co/jqhisme/e4e-ffhq-onnx/resolve/main/";
+        const base = hfUrl + "/jqhisme/e4e-ffhq-onnx/resolve/main/";
 
-        const encoder = await ort.InferenceSession.create(
-            base + "e4e_encoder_int8.onnx",
-            {
-                executionProviders: ["webgpu","wasm"],
-                externalData: [{
-                    path: "e4e_encoder_int8.onnx.data",
-                    data: base + "e4e_encoder_int8.onnx.data"
-                }]
-            }
-        );
-
-        const decoder = await ort.InferenceSession.create(
-            base + "e4e_decoder.onnx",
-            {
-                executionProviders: ["webgpu","wasm"],
-                externalData: [{
-                    path: "e4e_decoder.onnx.data",
-                    data: base + "e4e_decoder.onnx.data"
-                }]
-            }
-        );
+        const encoder = await ort.InferenceSession.create(base + "e4e_encoder_int8.onnx", {
+            executionProviders: ["webgpu", "wasm"],
+            externalData: [{
+                path: "e4e_encoder_int8.onnx.data",
+                data: base + "e4e_encoder_int8.onnx.data"
+            }]
+        });
+        const decoder = await ort.InferenceSession.create(base + "e4e_decoder.onnx", {
+            executionProviders: ["webgpu", "wasm"],
+            externalData: [{
+                path: "e4e_decoder.onnx.data",
+                data: base + "e4e_decoder.onnx.data"
+            }]
+        });
 
         console.log("Model loaded successfully");
         return { encoder, decoder };
@@ -295,7 +289,7 @@ async function detectCameraFrames() {
                     readyState: video.readyState,
                     currentTime: video.currentTime
                 });
-                setMixStatus("Camera is live, but no face is detected. Face the camera in good light.");
+                setMixStatus("Camera is live, but no face is detected.");
             }
         } else {
             if (emptyCameraDetections >= 30 && latents.every(Boolean)) {

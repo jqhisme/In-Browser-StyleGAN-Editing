@@ -15,6 +15,10 @@ async function init(){
 
     // wait for model to load
     const models = await loadModel();
+    if (!models) {
+        document.getElementById("model-status").textContent = "Failed to load";
+        return;
+    }
     document.getElementById("onnx-provider").textContent = "Prioritizing WebGPU and falling back to WASM(CPU)";
     document.getElementById("model-status").textContent = "Loaded";
     // let saveButton = document.createElement("button");
@@ -24,7 +28,6 @@ async function init(){
     //     saveModelsToIndexDB(models);
     // });
 
-    if(!models) return;
     const { encoder, decoder } = models;
 
     let button   = document.getElementById("mix");
@@ -149,27 +152,20 @@ async function loadModel(){
 
         const base = "https://huggingface.co/jqhisme/e4e-ffhq-onnx/resolve/main/";
 
-        const encoder = await ort.InferenceSession.create(
-            base + "e4e_encoder_int8.onnx",
-            {
-                executionProviders: ["webgpu","wasm"],
-                externalData: [{
-                    path: "e4e_encoder_int8.onnx.data",
-                    data: base + "e4e_encoder_int8.onnx.data"
-                }]
-            }
-        );
-
-        const decoder = await ort.InferenceSession.create(
-            base + "e4e_decoder.onnx",
-            {
-                executionProviders: ["webgpu","wasm"],
-                externalData: [{
-                    path: "e4e_decoder.onnx.data",
-                    data: base + "e4e_decoder.onnx.data"
-                }]
-            }
-        );
+        const encoder = await ort.InferenceSession.create(base + "e4e_encoder_int8.onnx", {
+            executionProviders: ["webgpu", "wasm"],
+            externalData: [{
+                path: "e4e_encoder_int8.onnx.data",
+                data: base + "e4e_encoder_int8.onnx.data"
+            }]
+        });
+        const decoder = await ort.InferenceSession.create(base + "e4e_decoder.onnx", {
+            executionProviders: ["webgpu", "wasm"],
+            externalData: [{
+                path: "e4e_decoder.onnx.data",
+                data: base + "e4e_decoder.onnx.data"
+            }]
+        });
 
         console.log("Model loaded successfully");
         return { encoder, decoder };
