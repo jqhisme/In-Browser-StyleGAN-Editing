@@ -3,7 +3,7 @@
 ## How it works
 Models, weights, and architectures adopted from [encoder4editing](https://github.com/omertov/encoder4editing) are being converted to ONNX model format.
 - Rewrote C++ operations(originally ran by ninja) in Pytorch to allow convertion to ONNX graph
-- Quantized and calibrated the encoder to int8 for smaller model size. Quantizing the decoder did not show significant reduction in model size. 
+- Quantized and calibrated the encoder to int8 to reduces model size. Quantizing the decoder does not show significant reduction in model size. 
 
 *Note: ONNX web runtime does not natively support int8 operations, thus int8 quantization did not by nature accelerate the inference process. Even so, it reduces model size and thus reduces the use of browser memory*
 
